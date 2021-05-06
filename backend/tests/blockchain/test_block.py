@@ -12,7 +12,12 @@ def test_mine_block():
 
 def test_genesis():
     genesis = Block.genesis()
-    assert isinstance(genesis, Block)
 
+    assert isinstance(genesis, Block)
     for key, value in GENESIS_DATA.items():
         assert getattr(genesis, key) == value
+
+def test_quickly_mined_block():
+    last_block = Block.mine_block(Block.genesis(), 'foo')
+    mined_block = Block.mine_block(last_block, 'bar')
+    assert mined_block.difficulty == last_block.difficulty + 1
